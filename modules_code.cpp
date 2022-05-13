@@ -188,6 +188,27 @@ void ContainerClear(Container *_container) {
 	return;
 };
 
+bool checkSort(ContainerNode* _first, ContainerNode* _second) {
+	if (_countOfVowels(*(_first->_movieData)) < _countOfVowels(*(_second->_movieData)))
+		return true;
+	else
+		return false;
+};
+
+void ContainerSort(Container* _container) {
+	for (ContainerNode* _current = _container->_head; (_current != _container->_head->_prev && _current != NULL); _current = _current->_next) {
+		for (ContainerNode* _currentSecond = _current; (_currentSecond != _container->_head->_prev && _currentSecond != NULL); ) {
+			_currentSecond = _currentSecond->_next;
+			if (checkSort(_current, _currentSecond)) {
+				Movie* _temp = _current->_movieData;
+				_current->_movieData = _currentSecond->_movieData;
+				_currentSecond->_movieData = _temp;
+			};
+		};
+	};
+
+};
+
 void ContainerInput(Container* _container, std::ifstream& _inputStream) {
 	_inputStream >> _container->_containerSize;
 	_container->_dataContainer = new ContainerNode [_container->_containerSize];
