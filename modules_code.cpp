@@ -88,6 +88,7 @@ enum _keyType {
 
 struct Movie {
 	std::string _name;
+	std::string _country;
 	_keyType _key;
 	union {
 		Gaming _gamingMovie;
@@ -105,6 +106,9 @@ Movie* MovieInput(std::ifstream& _inputStream) {
 		std::string _nameString = "";
 		_inputStream >> _nameString;
 		_movie->_name = _nameString;
+		std::string _countryString = "";
+		_inputStream >> _countryString;
+		_movie->_country = _countryString;
 		GamingInput(_movie->_gamingMovie, _inputStream);
 		return _movie;
 	}
@@ -114,6 +118,9 @@ Movie* MovieInput(std::ifstream& _inputStream) {
 		std::string _nameString = "";
 		_inputStream >> _nameString;
 		_movie->_name = _nameString;
+		std::string _countryString = "";
+		_inputStream >> _countryString;
+		_movie->_country = _countryString;
 		CartoonInput(_movie->_cartoonMovie, _inputStream);
 		return _movie;
 	}
@@ -124,12 +131,12 @@ void MovieOutput(Movie& _movie, std::ofstream& _outputStream) {
 	switch (_movie._key)
 	{
 	case CARTOON: {
-		_outputStream << "This is CARTOON movie with name " << _movie._name << ' ';
+		_outputStream << "This is CARTOON movie with name " << _movie._name << " released in " << _movie._country << ' ';
 		CartoonOutput(_movie._cartoonMovie, _outputStream);
 		break;
 	};
 	case GAMING: {
-		_outputStream << "This is GAMING movie with name " << _movie._name<<' ';
+		_outputStream << "This is GAMING movie with name " << _movie._name<< " released in " << _movie._country << ' ';
 		GamingOutput(_movie._gamingMovie, _outputStream);
 		break;
 	};
