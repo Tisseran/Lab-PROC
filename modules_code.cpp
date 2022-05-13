@@ -81,9 +81,22 @@ void CartoonOutput(Cartoon& _cartoon, std::ofstream &_outputStream) {
 
 
 
+struct Document {
+	unsigned short int _year;
+};
+
+void DocumentInput(Document& _document, std::ifstream& _inputStream) {
+	_inputStream >> _document._year;
+};
+
+void DocumentOutput(Document& _document, std::ofstream& _outputStream) {
+	_outputStream << "and this creation year are " << _document._year;
+};
+
 enum _keyType {
 	GAMING,
-	CARTOON
+	CARTOON,
+	DOCUMENT
 };
 
 struct Movie {
@@ -92,6 +105,7 @@ struct Movie {
 	union {
 		Gaming _gamingMovie;
 		Cartoon _cartoonMovie;
+		Document _documentMovie;
 	};
 };
 
@@ -117,6 +131,15 @@ Movie* MovieInput(std::ifstream& _inputStream) {
 		CartoonInput(_movie->_cartoonMovie, _inputStream);
 		return _movie;
 	}
+	else if (_typeString == "DOCUMENT") {
+		_movie = new Movie();
+		_movie->_key = DOCUMENT;
+		std::string _nameString = "";
+		_inputStream >> _nameString;
+		_movie->_name = _nameString;
+		DocumentInput(_movie->_documentMovie, _inputStream);
+		return _movie;
+	};
 	return NULL;
 };
 
@@ -131,6 +154,11 @@ void MovieOutput(Movie& _movie, std::ofstream& _outputStream) {
 	case GAMING: {
 		_outputStream << "This is GAMING movie with name " << _movie._name<<' ';
 		GamingOutput(_movie._gamingMovie, _outputStream);
+		break;
+	};
+	case DOCUMENT: {
+		_outputStream << "This is DOCUMENT movie with name " << _movie._name << ' ';
+		DocumentOutput(_movie._documentMovie, _outputStream);
 		break;
 	};
 	};
