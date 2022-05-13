@@ -33,3 +33,12 @@
 .vs/Lab/v17/.suo
 *.db
 *.ipch
+input.txt
+output.txt
+*.recipe
+*.ilk
+*.log
+*.pdb
+*.tlog
+*.txt
+*.idb
