@@ -124,12 +124,12 @@ void MovieOutput(Movie& _movie, std::ofstream& _outputStream) {
 	switch (_movie._key)
 	{
 	case CARTOON: {
-		_outputStream << "This is CARTOON movie with name " << _movie._name << ' ';
+		_outputStream << "This is CARTOON movie with name " << _movie._name << " (Count of Vowels: " << _countOfVowels(_movie) << ") ";
 		CartoonOutput(_movie._cartoonMovie, _outputStream);
 		break;
 	};
 	case GAMING: {
-		_outputStream << "This is GAMING movie with name " << _movie._name<<' ';
+		_outputStream << "This is GAMING movie with name " << _movie._name << " (Count of Vowels: " << _countOfVowels(_movie) << ") ";
 		GamingOutput(_movie._gamingMovie, _outputStream);
 		break;
 	};
@@ -137,7 +137,15 @@ void MovieOutput(Movie& _movie, std::ofstream& _outputStream) {
 	return;
 };
 
-
+unsigned long long int _countOfVowels(Movie _movie) {
+	unsigned long long int _count = 0;
+	for (unsigned long long int i = 0; i < _movie._name.size(); i++)
+		if (_movie._name.at(i) == 'a' || _movie._name.at(i) == 'e' || _movie._name.at(i) == 'i' || _movie._name.at(i) == 'o' || _movie._name.at(i) == 'u' || _movie._name.at(i) == 'y')
+			_count++;
+		else if (_movie._name.at(i) == 'A' || _movie._name.at(i) == 'E' || _movie._name.at(i) == 'I' || _movie._name.at(i) == 'O' || _movie._name.at(i) == 'U' || _movie._name.at(i) == 'Y')
+			_count++;
+	return _count;
+};
 
 struct ContainerNode {
 	Movie* _movieData;
@@ -180,6 +188,27 @@ void ContainerClear(Container *_container) {
 	return;
 };
 
+bool checkSort(ContainerNode* _first, ContainerNode* _second) {
+	if (_countOfVowels(*(_first->_movieData)) < _countOfVowels(*(_second->_movieData)))
+		return true;
+	else
+		return false;
+};
+
+void ContainerSort(Container* _container) {
+	for (ContainerNode* _current = _container->_head; (_current != _container->_head->_prev && _current != NULL); _current = _current->_next) {
+		for (ContainerNode* _currentSecond = _current; (_currentSecond != _container->_head->_prev && _currentSecond != NULL); ) {
+			_currentSecond = _currentSecond->_next;
+			if (checkSort(_current, _currentSecond)) {
+				Movie* _temp = _current->_movieData;
+				_current->_movieData = _currentSecond->_movieData;
+				_currentSecond->_movieData = _temp;
+			};
+		};
+	};
+
+};
+
 void ContainerInput(Container* _container, std::ifstream& _inputStream) {
 	_inputStream >> _container->_containerSize;
 	_container->_dataContainer = new ContainerNode [_container->_containerSize];
@@ -196,53 +225,13 @@ void ContainerInput(Container* _container, std::ifstream& _inputStream) {
 
 void ContainerOutput(Container* _container, std::ofstream& _outputStream) {
 	if (_container->_containerSize > 0 && _container->_head != NULL) {
-		std::cout << "Skip ?\nEnter 0 if no skip, else enter\n1 if skip GAMING\n2 if skip CARTOON\n";
-		int _skip = 0;
-		std::cin >> _skip;
-		if (_skip == 0) {
-			_outputStream << "Count of movies: " << _container->_containerSize << '\n';
-			ContainerNode* _current = _container->_head;
-			do {
-				ContainerNodeOutput(_current, _outputStream);
-				_outputStream << '\n';
-				_current = _current->_next;
-			} while (_current != _container->_head);
-		}
-		else if (_skip == 1) {
-			unsigned int _countCartoonMovies = 0;
-			ContainerNode* _current = _container->_head;
-			do {
-				if (_current->_movieData->_key == CARTOON)
-					_countCartoonMovies++;
-				_current = _current->_next;
-			} while (_current != _container->_head);
-			_outputStream << "Count of only CARTOON movies: " << _countCartoonMovies << '\n';
-			do {
-				if (_current->_movieData->_key == CARTOON) {
-					ContainerNodeOutput(_current, _outputStream);
-					_outputStream << '\n';
-				};
-				_current = _current->_next;
-			} while (_current != _container->_head);
-		}
-		else if (_skip == 2) {
-			unsigned int _countGamingMovies = 0;
-			ContainerNode* _current = _container->_head;
-			do {
-				if (_current->_movieData->_key == GAMING)
-					_countGamingMovies++;
-				_current = _current->_next;
-			} while (_current != _container->_head);
-			_outputStream << "Count of only GAMING movies: " << _countGamingMovies << '\n';
-			do {
-				if (_current->_movieData->_key == GAMING) {
-					ContainerNodeOutput(_current, _outputStream);
-					_outputStream << '\n';
-				};
-				_current = _current->_next;
-			} while (_current != _container->_head);
-
-		};
+		_outputStream << "Count of movies: " << _container->_containerSize << '\n';
+		ContainerNode* _current = _container->_head;
+		do {
+			ContainerNodeOutput(_current, _outputStream);
+			_outputStream << '\n';
+			_current = _current->_next;
+		} while (_current != _container->_head);
 	};
 	return;
 };
