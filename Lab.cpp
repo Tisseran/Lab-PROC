@@ -11,6 +11,8 @@ int main(int argc, char* argv[]) {
 	Container* _dataContainer= InitializationContainer();
 	ContainerInput(_dataContainer, _inputStream);
 	std::cout << "Filled container:\n";
+	ContainerSort(_dataContainer);
+	std::cout << "Sort container:\n";
 	ContainerOutput(_dataContainer, _outputStream);
 	ContainerClear(_dataContainer);
 	ContainerOutput(_dataContainer, _outputStream);
