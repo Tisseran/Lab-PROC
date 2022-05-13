@@ -124,12 +124,12 @@ void MovieOutput(Movie& _movie, std::ofstream& _outputStream) {
 	switch (_movie._key)
 	{
 	case CARTOON: {
-		_outputStream << "This is CARTOON movie with name " << _movie._name << ' ';
+		_outputStream << "This is CARTOON movie with name " << _movie._name << " (Count of Vowels: " << _countOfVowels(_movie) << ") ";
 		CartoonOutput(_movie._cartoonMovie, _outputStream);
 		break;
 	};
 	case GAMING: {
-		_outputStream << "This is GAMING movie with name " << _movie._name<<' ';
+		_outputStream << "This is GAMING movie with name " << _movie._name << " (Count of Vowels: " << _countOfVowels(_movie) << ") ";
 		GamingOutput(_movie._gamingMovie, _outputStream);
 		break;
 	};
@@ -137,7 +137,15 @@ void MovieOutput(Movie& _movie, std::ofstream& _outputStream) {
 	return;
 };
 
-
+unsigned long long int _countOfVowels(Movie _movie) {
+	unsigned long long int _count = 0;
+	for (unsigned long long int i = 0; i < _movie._name.size(); i++)
+		if (_movie._name.at(i) == 'a' || _movie._name.at(i) == 'e' || _movie._name.at(i) == 'i' || _movie._name.at(i) == 'o' || _movie._name.at(i) == 'u' || _movie._name.at(i) == 'y')
+			_count++;
+		else if (_movie._name.at(i) == 'A' || _movie._name.at(i) == 'E' || _movie._name.at(i) == 'I' || _movie._name.at(i) == 'O' || _movie._name.at(i) == 'U' || _movie._name.at(i) == 'Y')
+			_count++;
+	return _count;
+};
 
 struct ContainerNode {
 	Movie* _movieData;

@@ -18,6 +18,7 @@ void CartoonOutput(Cartoon& _cartoon, std::ofstream &_outputStream);
 struct Movie;
 Movie* MovieInput(std::ifstream& _inputStream);
 void MovieOutput(Movie& _movie, std::ofstream& _outputStream);
+unsigned long long int _countOfVowels(Movie _movie);
 
 struct ContainerNode;
 ContainerNode* ContainerNodeInput(std::ifstream& _inputStream);
