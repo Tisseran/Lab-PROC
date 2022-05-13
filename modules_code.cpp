@@ -196,13 +196,53 @@ void ContainerInput(Container* _container, std::ifstream& _inputStream) {
 
 void ContainerOutput(Container* _container, std::ofstream& _outputStream) {
 	if (_container->_containerSize > 0 && _container->_head != NULL) {
-		_outputStream << "Count of movies: " << _container->_containerSize << '\n';
-		ContainerNode* _current = _container->_head;
-		do {
-			ContainerNodeOutput(_current, _outputStream);
-			_outputStream << '\n';
-			_current = _current->_next;
-		} while (_current != _container->_head);
+		std::cout << "Skip ?\nEnter 0 if no skip, else enter\n1 if skip GAMING\n2 if skip CARTOON\n";
+		int _skip = 0;
+		std::cin >> _skip;
+		if (_skip == 0) {
+			_outputStream << "Count of movies: " << _container->_containerSize << '\n';
+			ContainerNode* _current = _container->_head;
+			do {
+				ContainerNodeOutput(_current, _outputStream);
+				_outputStream << '\n';
+				_current = _current->_next;
+			} while (_current != _container->_head);
+		}
+		else if (_skip == 1) {
+			unsigned int _countCartoonMovies = 0;
+			ContainerNode* _current = _container->_head;
+			do {
+				if (_current->_movieData->_key == CARTOON)
+					_countCartoonMovies++;
+				_current = _current->_next;
+			} while (_current != _container->_head);
+			_outputStream << "Count of only CARTOON movies: " << _countCartoonMovies << '\n';
+			do {
+				if (_current->_movieData->_key == CARTOON) {
+					ContainerNodeOutput(_current, _outputStream);
+					_outputStream << '\n';
+				};
+				_current = _current->_next;
+			} while (_current != _container->_head);
+		}
+		else if (_skip == 2) {
+			unsigned int _countGamingMovies = 0;
+			ContainerNode* _current = _container->_head;
+			do {
+				if (_current->_movieData->_key == GAMING)
+					_countGamingMovies++;
+				_current = _current->_next;
+			} while (_current != _container->_head);
+			_outputStream << "Count of only GAMING movies: " << _countGamingMovies << '\n';
+			do {
+				if (_current->_movieData->_key == GAMING) {
+					ContainerNodeOutput(_current, _outputStream);
+					_outputStream << '\n';
+				};
+				_current = _current->_next;
+			} while (_current != _container->_head);
+
+		};
 	};
 	return;
 };
