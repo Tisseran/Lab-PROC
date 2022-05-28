@@ -12,6 +12,7 @@ bool GamingInput(Gaming& _gaming, std::ifstream &_inputStream) {
 		return false;
 	_gaming._director = new char[_inputData.size()+1];
 	strcpy(_gaming._director, _inputData.c_str());
+	return true;
 };
 
 void GamingOutput(Gaming& _gaming, std::ofstream &_outputStream) {
@@ -22,8 +23,6 @@ void GamingOutput(Gaming& _gaming, std::ofstream &_outputStream) {
 	};
 	return;
 };
-
-
 
 enum typeOfCartoon {
 	anime,
@@ -82,8 +81,6 @@ void CartoonOutput(Cartoon& _cartoon, std::ofstream &_outputStream) {
 	return;
 };
 
-
-
 struct Document {
 	unsigned short int _year;
 };
@@ -103,8 +100,6 @@ void DocumentOutput(Document& _document, std::ofstream& _outputStream) {
 	_outputStream << " and this creation year are " << _document._year;
 };
 
-
-
 enum _keyType {
 	GAMING,
 	CARTOON,
@@ -123,50 +118,42 @@ struct Movie {
 };
 
 Movie* MovieInput(std::ifstream& _inputStream) {
-	Movie* _movie;
+	Movie* _movie = new Movie();
 	std::string _typeString = "";
 	_inputStream >> _typeString;
+	_inputStream >> _movie->_name;
+	_inputStream >> _movie->_country;
 	if (_typeString == "GAMING") {
-		_movie = new Movie();
 		_movie->_key = GAMING;
-		_inputStream >> _movie->_name;
+		if (!GamingInput(_movie->_gamingMovie, _inputStream))
+			return NULL;
 		if (_movie->_name.size() <= 0)
 			return NULL;
-		_inputStream >> _movie->_country;
 		if (_movie->_country.size() <= 0)
-			return NULL;
-		if (!GamingInput(_movie->_gamingMovie, _inputStream))
 			return NULL;
 		return _movie;
 	}
 	else if (_typeString == "CARTOON") {
-		_movie = new Movie();
 		_movie->_key = CARTOON;
-		_inputStream >> _movie->_name;
+		if (!CartoonInput(_movie->_cartoonMovie, _inputStream))
+			return NULL;
 		if (_movie->_name.size() <= 0)
 			return NULL;
-		_inputStream >> _movie->_country;
 		if (_movie->_country.size() <= 0)
-			return NULL;
-		if (!CartoonInput(_movie->_cartoonMovie, _inputStream))
 			return NULL;
 		return _movie;
 	}
 	else if (_typeString == "DOCUMENT") {
-		_movie = new Movie();
 		_movie->_key = DOCUMENT;
-		_inputStream >> _movie->_name;
+		if (!DocumentInput(_movie->_documentMovie, _inputStream))
+			return NULL;
 		if (_movie->_name.size() <= 0)
 			return NULL;
-		_inputStream >> _movie->_country;
 		if (_movie->_country.size() <= 0)
-			return NULL;
-		if (!DocumentInput(_movie->_documentMovie, _inputStream))
 			return NULL;
 		return _movie;
 	}
-	else
-		return NULL;
+	_inputStream >> _typeString;
 	return NULL;
 };
 
@@ -202,8 +189,6 @@ unsigned long long int _countOfVowels(Movie _movie) {
 	return _count;
 };
 
-
-
 struct ContainerNode {
 	Movie* _movieData;
 	ContainerNode* _next=NULL;
@@ -226,8 +211,6 @@ ContainerNode* ContainerNodeInput (std::ifstream& _inputStream) {
 void ContainerNodeOutput(ContainerNode* _tempNode, std::ofstream& _outputStream) {
 	MovieOutput(*_tempNode->_movieData, _outputStream);
 };
-
-
 
 struct Container {
 	ContainerNode* _head;
@@ -360,4 +343,3 @@ void ContainerOutput(Container* _container, std::ofstream& _outputStream) {
 	};
 	return;
 };
-
