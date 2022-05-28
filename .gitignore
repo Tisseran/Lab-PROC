@@ -42,3 +42,5 @@ output.txt
 *.tlog
 *.txt
 *.idb
+*.lock
+*.vsidx

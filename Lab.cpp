@@ -10,8 +10,10 @@ int main(int argc, char* argv[]) {
 	std::cout << "|/| START PROGRAMM |\\|\n";
 	Container* _dataContainer= InitializationContainer();
 	ContainerInput(_dataContainer, _inputStream);
+	ContainerOutput(_dataContainer, _outputStream);
 	std::cout << "Filled container:\n";
 	ContainerSort(_dataContainer);
+	ContainerOutput(_dataContainer, _outputStream);
 	std::cout << "Sort container:\n";
 	ContainerOutput(_dataContainer, _outputStream);
 	ContainerClear(_dataContainer);
