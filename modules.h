@@ -8,15 +8,15 @@
 #include <regex>
 
 struct Gaming;
-void GamingInput(Gaming& _gaming, std::ifstream &_inputStream);
+bool GamingInput(Gaming& _gaming, std::ifstream &_inputStream);
 void GamingOutput(Gaming& _gaming, std::ofstream &_outputStream);
 
 struct Cartoon;
-void CartoonInput(Cartoon& _cartoon, std::ifstream &_inputStream);
+bool CartoonInput(Cartoon& _cartoon, std::ifstream &_inputStream);
 void CartoonOutput(Cartoon& _cartoon, std::ofstream &_outputStream);
 
 struct Document;
-void DocumentInput(Document& _document, std::ifstream& _inputStream);
+bool DocumentInput(Document& _document, std::ifstream& _inputStream);
 void DocumentOutput(Document& _document, std::ofstream& _outputStream);
 
 struct Movie;
