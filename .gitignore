@@ -44,3 +44,6 @@ output.txt
 *.idb
 *.lock
 *.vsidx
+*.db-shm
+*.db-wal
+*.opendb
